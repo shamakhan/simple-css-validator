@@ -1,0 +1,15 @@
+{
+  "name": "simple-css-validator",
+  "version": "1.0.0",
+  "description": "CSS validator for common css rules",
+  "main": "src/index.js",
+  "author": "Shama Khan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shamakhan/simple-css-validator"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "color-convert": "^2.0.1"
+  }
+}
