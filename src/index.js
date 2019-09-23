@@ -8,7 +8,7 @@ export default function cssValidate(css ) {
   if (css.display) {
     testDiv.style.display = css.display;
     if (window.getComputedStyle(testDiv).display != css.display) {
-      error.push('Invalid value for property \'display\'');
+      error.push('Value for property \'display\' could not be set or is incorrect');
     }
   }
   testDiv.style.display = 'none';
@@ -29,7 +29,7 @@ export default function cssValidate(css ) {
     } else {
       let computedProp = getReleventProperties(computedProperties, property);
       if (!checkContainsVal(computedProp, css[property])) {
-        error.push(`Invalid value for property \'${property}\'`);
+        error.push(`Value for property \'${property}\' could not be set or is incorrect`);
         isValid = false;
       }
     } 

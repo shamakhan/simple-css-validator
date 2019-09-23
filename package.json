@@ -1,6 +1,6 @@
 {
   "name": "simple-css-validator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "CSS validator for common css rules",
   "main": "src/index.js",
   "author": "Shama Khan",
