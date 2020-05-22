@@ -42,12 +42,12 @@ function getReleventProperties(computedProperties, property) {
   return Array.prototype.filter.call(computedProperties, function (prop) {
     return prop.includes(property);
   }).reduce(function (acc, prop) {
-    acc.push(computedProperties[prop].replace(/\s+/g, ""));
+    acc.push((computedProperties[prop] || "").replace(/\s+/g, ""));
     return acc;
   }, []);
 }
 
-function trimEndPx(str) {
+function roundValueWithPx(str) {
   if (str.substr(str.length - 2) === 'px') {
     return String(Math.ceil(str.substr(0, str.length - 2))) + 'px';
   }
@@ -59,7 +59,7 @@ function checkContainsVal(computedProperties, value) {
   trimmedValue = trimmedValue.split(" ");
   return trimmedValue.every(function (val) {
     return computedProperties.some(function (prop) {
-      if (trimEndPx(prop).includes(val) || prop.includes(getRGBValue(val))) {
+      if (roundValueWithPx(prop).includes(val) || prop.includes(getRGBValue(val))) {
         return true;
       }
       return false;

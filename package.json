@@ -1,8 +1,8 @@
 {
   "name": "simple-css-validator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CSS validator for common css rules",
-  "main": "src/index.js",
+  "main": "dist/main.js",
   "author": "Shama Khan",
   "repository": {
     "type": "git",
@@ -11,5 +11,12 @@
   "license": "MIT",
   "dependencies": {
     "color-convert": "^2.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   }
 }
