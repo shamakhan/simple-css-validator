@@ -1,6 +1,6 @@
 {
   "name": "simple-css-validator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CSS validator for common css rules",
   "main": "dist/simpleCssValidator.min.js",
   "author": "Shama Khan",
@@ -14,7 +14,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "color-convert": "^2.0.1"
+    "color-convert": "^2.0.1",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

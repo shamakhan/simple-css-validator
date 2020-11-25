@@ -1,41 +1,53 @@
 import { keyword, hex } from 'color-convert';
+import { cloneDeep } from 'lodash';
+import ValidationResult from './ValidationResult';
 
-export default function cssValidate(css ) {
+export default function cssValidate(customCss) {
+  const css = cloneDeep(customCss);
+  const validate = new ValidationResult();
   const testDiv = document.createElement('div');
   document.body.appendChild(testDiv);
-  let isValid = true;
-  let error = [];
   if (css.display) {
     testDiv.style.display = css.display;
     if (window.getComputedStyle(testDiv).display != css.display) {
-      error.push('Value for property \'display\' could not be set or is incorrect');
+      validate.setError(`Value for property 'display' could not be set or is incorrect`);
     }
   }
   testDiv.style.display = 'none';
   delete css.display;
   let cssProperties = Object.keys(css);
-  let cssValues = Object.keys(css);
   cssProperties.forEach(function (property) {
     testDiv.style[property] = css[property];
   });
   const computedProperties = window.getComputedStyle(testDiv);
   cssProperties.forEach(function (property, index) {
-    if (property === '' || css[property] === '') {
-      error.push(`Invalid CSS \'${property}:${property ? css[property] : cssValues[index]}\'`);
-      isValid = false;
+    if (css[property] === "inherit" || css[property] === "initial") {
+    } else if (property === '' || css[property] === '') {
+      validate.setError(`Invalid CSS '${property}:${css[property]}'`);
     } else if (!(property in computedProperties)) {      
-      error.push(`Invalid property \'${property}\'`);
-      isValid = false;
+      validate.setError(`Invalid property '${property}'`);
+    } else if (property.indexOf("color") !== -1 && !validColor(testDiv, css[property])) {
+      validate.setError(`Invalid property value for '${property}'`);
     } else {
-      let computedProp = getReleventProperties(computedProperties, property);
+      const computedProp = getReleventProperties(computedProperties, property);
       if (!checkContainsVal(computedProp, css[property])) {
-        error.push(`Value for property \'${property}\' could not be set or is incorrect`);
-        isValid = false;
+        validate.setError(`Value for property '${property}' could not be set or is incorrect`);
       }
     } 
   });
   document.body.removeChild(testDiv);
-  return { valid: isValid, error: error };
+  return validate.result();
+}
+
+// Taken from https://stackoverflow.com/a/16994164
+function validColor(div, colorString) {
+  if (colorString === "transparent") return true;
+  div.style.color = "rgb(0, 0, 0)";
+  div.style.color = colorString;
+  if (div.style.color !== "rgb(0, 0, 0)") return true;
+  div.style.color = "rgb(255, 255, 255)";
+  div.style.color = colorString;
+  return div.style.color !== "rgb(255, 255, 255)";
 }
 
 function getReleventProperties(computedProperties, property) {
